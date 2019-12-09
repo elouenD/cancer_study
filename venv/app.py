@@ -22,10 +22,10 @@ def readCancerFile(path):
     file.pop(0)
     return file
 
-OverallFurvivalFile = readCancerFile("dataSet/Overall_Survival_(Months).txt")
-arGeneFile = readCancerFile("dataSet/AR_Cleaned.txt")
-foxA1GeneFile = readCancerFile("dataSet/FOXA1_Cleaned.txt")
-tp53GeneFile = readCancerFile("dataSet/TP53_Cleaned.txt")
+patients = readCancerFile("dataSet/Overall_Survival_(Months).txt")
+ar = readCancerFile("dataSet/AR_Cleaned.txt")
+foxA1 = readCancerFile("dataSet/FOXA1_Cleaned.txt")
+tp53 = readCancerFile("dataSet/TP53_Cleaned.txt")
 
 def stringToFloat(tab):
     for i in range(len(tab)):
@@ -163,23 +163,6 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             }
         }
     ),
-    html.Div(children='This study compares the survival rate of the 3 most mutated genes in our samples : ', style={
-        'textAlign': 'center',
-        'color': colors['text']
-    }),
-    html.Div(children='\t TP53 (Gene mutated in 40% of patients) : Missense mostly and nonsense mutation and some in frame deletion mutation', style={
-        'textAlign': 'left',
-        'color': colors['text'],
-        'margin-left' : '25%',
-    }),html.Div(children='\t AR (Gene mutated in 14% of patients) : Almost exclusively amplifications', style={
-        'textAlign': 'left',
-        'color': colors['text'],
-        'margin-left' : '25%',
-    }),html.Div(children='\t FOXA1 (Gene mutated in 9% of patients) : Mostly amplification', style={
-        'textAlign': 'left',
-        'color': colors['text'],
-        'margin-left' : '25%',
-    }),
     dcc.Graph(
         figure=fig
     )
