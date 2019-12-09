@@ -135,7 +135,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         }
     ),
 
-    html.Div(children='We can see that the survival rate decrease drasticaly after the 20th month. And only 32% survive after the 30th month.', style={
+    html.Div(children='We can see the survival rate decrease drasticaly after the 20th month. And only 32% survive after the 30th month.', style={
         'textAlign': 'center',
         'color': colors['text']
     }),
@@ -197,16 +197,26 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             }
         }
     ),
-    html.Div(children='We can see the diagnosis age average is high, beetwen 65-70 age. The first diagnosis in this study is at 40years. '
-                      '', style={
+    html.Div(children='We can see the diagnosis age average is high, beetwen 65-70 age. The first diagnosis in this study is at 40years. We got the same report form the study SU2C/PCF Dream Team, Cell 2019.', style={
         'textAlign': 'center',
         'color': colors['text']
+    }),
+    html.Div(children=' The point to remind here is the diagnosis age is high and we can relate him wih the overall survival we saw before. The next graph will reliate the diagnosis age/age of the patient and the tumor content'
+                      '', style={
+        'textAlign': 'center',
+        'color': colors['text'],
+        'margin-bottom': 30,
     }),
     dcc.Tabs(id="tabs-tumor", value='tabs-tumor-plus-64', children=[
         dcc.Tab(label='64 <=', value='tabs-tumor-plus-64'),
         dcc.Tab(label='64 >', value='tabs-tumor-less-64'),
     ]),
     html.Div(id='tabs-content-tumor'),
+    html.Div(children='The tumor content average different with the age but not so different', style={
+        'textAlign': 'center',
+        'color': colors['text'],
+        'margin-bottom': 140,
+    }),
 
 ])
 
