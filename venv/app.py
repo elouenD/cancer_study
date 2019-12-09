@@ -2,6 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import plotly.graph_objects as go
 import base64
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -13,15 +14,21 @@ colors = {
     'text': '#111111'
 }
 
-patients = list()
-with open("dataSet/Overall_Survival_(Months).txt") as f:
-    for line in f:
-        patients.append(line.replace('\n', ''))
+def readCancerFile(path): 
+    file = list()
+    with open(path) as f:
+        for line in f:
+            file.append(line.replace('\n', ''))
+    file.pop(0)
+    return file
 
-patients.pop(0)
+patients = readCancerFile("dataSet/Overall_Survival_(Months).txt")
+ar = readCancerFile("dataSet/AR_Cleaned.txt")
+foxA1 = readCancerFile("dataSet/FOXA1_Cleaned.txt")
+tp53 = readCancerFile("dataSet/TP53_Cleaned.txt")
 
 def stringToFloat(tab):
-    for i in range(len(patients)):
+    for i in range(len(tab)):
         tab[i] = round(float(tab[i]))
 
 def countSurvivalOneList(tab):
@@ -39,14 +46,38 @@ def triBulle(tab):
             if tab[j] > tab[j+1] :
                 tab[j], tab[j+1] = tab[j+1], tab[j]
 
-stringToFloat(patients)
-triBulle(patients)
-monthCount = countSurvivalOneList(patients)
-nbByMonth = list(monthCount.keys())
-nbAlive = list(monthCount.values())
+def getValues(data):
+    stringToFloat(data)
+    triBulle(data)
+    monthCount = countSurvivalOneList(data)
+    return [list(monthCount.keys()), list(monthCount.values())]
 
 image_filename = './images/metastatic-cancer.jpg' # replace with your own image
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
+patientsValues = getValues(patients)
+tp53Values = getValues(tp53)
+arValues = getValues(ar)
+foxA1Values = getValues(foxA1)    
+    
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(
+    x=tp53Values[0],
+    y= tp53Values[1],
+    name = '<b>No</b> Gaps', # Style name/legend entry with html tags
+    connectgaps=True # override default to connect the gaps
+))
+fig.add_trace(go.Scatter(
+    x=arValues[0],
+    y=arValues[1],
+    name='Gaps',
+))
+fig.add_trace(go.Scatter(
+    x=foxA1Values[0],
+    y=foxA1Values[1],
+    name='Gaps',
+))
+
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
@@ -66,24 +97,83 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         html.Div('Example Div', style={'color': 'blue', 'fontSize': 14}),
         html.Img(src='data:image/png;base64,{}'.format(encoded_image))
     ], style={'marginBottom': 50, 'marginTop': 25}),
-
     dcc.Graph(
-            id='example-graph-3',
-            figure={
-                'data': [
-                    {'x': nbByMonth, 'y': nbAlive, 'type': 'bar', 'name': 'overall for all genes'},
-                    {'x': nbByMonth, 'y': nbAlive, 'type': 'bar', 'name': ''},
-                ],
-                'layout': {
-                    'plot_bgcolor': colors['background'],
-                    'paper_bgcolor': colors['background'],
-                    'font': {
-                        'color': colors['text']
-                    }
+        id='example-graph-3',
+        figure={
+            'data': [
+                {'x': patientsValues[0], 'y': patientsValues[1], 'type': 'bar', 'name': 'overall for all genes'},
+            ],
+            'layout': {
+                'plot_bgcolor': colors['background'],
+                'paper_bgcolor': colors['background'],
+                'font': {
+                    'color': colors['text']
                 }
             }
+        }
+    ),
+    dcc.Graph(
+        id='example-graph-1',
+        figure={
+            'data': [
+                {'x': tp53Values[0], 'y': tp53Values[1], 'type': 'bar', 'name': 'TP53'},
+                {'x': arValues[0], 'y': arValues[1], 'type': 'bar', 'name': 'AR'},
+                {'x': foxA1Values[0], 'y': foxA1Values[1], 'type': 'bar', 'name': 'FOXA1'},
+
+            ],
+            'layout': {
+                'plot_bgcolor': colors['background'],
+                'paper_bgcolor': colors['background'],
+                'font': {
+                    'color': colors['text']
+                }
+            }
+        }
+    ),
+    dcc.Graph(
+    figure=dict(
+        data=[
+            dict(
+                x=tp53Values[0],
+                y=tp53Values[1],
+                name='TP53',
+                marker=dict(
+                    color='rgb(55, 83, 109)'
+                )
+            ),
+            dict(
+                x=arValues[0],
+                y=arValues[1],
+                name='AR',
+                marker=dict(
+                    color='rgb(26, 118, 255)'
+                )
+            ),
+            dict(
+                x=foxA1Values[0],
+                y=foxA1Values[1],
+                name='FOXA1',
+                marker=dict(
+                    color='rgb(26, 118, 255)'
+                )
+            )
+        ],
+        layout=dict(
+            title='US Export of Plastic Scrap',
+            showlegend=True,
+            legend=dict(
+                x=0,
+                y=1.0
+            ),
+            margin=dict(l=40, r=0, t=40, b=30)
+        )
+    ),
+    style={'height': 300},
+    id='my-graph'
     )
 ])
+    
+fig.show()
 
 if __name__ == '__main__':
     app.run_server(debug=True)
