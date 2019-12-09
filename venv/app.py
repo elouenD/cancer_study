@@ -92,11 +92,16 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'textAlign': 'center',
         'color': colors['text']
     }),
-
     html.Div([
-        html.Div('Example Div', style={'color': 'blue', 'fontSize': 14}),
-        html.Img(src='data:image/png;base64,{}'.format(encoded_image))
-    ], style={'marginBottom': 50, 'marginTop': 25}),
+            html.Div('Example Div', style={'color': 'blue', 'fontSize': 14}),
+            html.Img(src='data:image/png;base64,{}'.format(encoded_image))
+        ], style={'marginBottom': 50, 'marginTop': 25}
+    ),
+    html.Div(children='This graph represents the overall survival since initial diagnosis of patients.', style={
+        'textAlign': 'center',
+        'color': colors['text'],
+        'font-weight' : 'bold',
+    }),
     dcc.Graph(
         id='example-graph-3',
         figure={
@@ -112,6 +117,20 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             }
         }
     ),
+    html.Div(children='We can see that the survival rate decrease drasticaly after the 20th month. And only 32% survive after the 30th month.', style={
+        'textAlign': 'center',
+        'color': colors['text']
+    }),
+    html.Div(children='It is important to remind the data used in this study is incomplete. Most of the patients (70%) didn\'t have information regarding their survival therefore the sample isn\'t representative.', style={
+        'textAlign': 'center',
+        'color': colors['text']
+    }),
+    html.Div(children='This graph represents the overall survival since initial diagnosis of patients grouped by mutated genes.', style={
+        'textAlign': 'center',
+        'color': colors['text'],
+        'font-weight' : 'bold',
+        'margin-top' : '3%',
+    }),
     dcc.Graph(
         id='example-graph-1',
         figure={
@@ -132,7 +151,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     ),
     dcc.Graph(
         figure=fig
-    )
+    )     
 ])
 
 if __name__ == '__main__':
