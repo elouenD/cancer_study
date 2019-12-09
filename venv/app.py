@@ -10,7 +10,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 colors = {
-    'background': '#F1ECEB',
+    'background': '#FFFFFF',
     'text': '#111111'
 }
 
@@ -93,10 +93,16 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'color': colors['text']
     }),
     html.Div([
-            html.Div('Example Div', style={'color': 'blue', 'fontSize': 14}),
-            html.Img(src='data:image/png;base64,{}'.format(encoded_image))
-        ], style={'marginBottom': 50, 'marginTop': 25}
-    ),
+        html.Div('    If your prostate cancer spreads to other parts of your body, your doctor may tell you that it\'s "metastatic" or' +
+                 'that your cancer has "metastasized." Most often, prostate cancer spreads to the bones or lymph nodes. It\'s also common ' +
+                 'for it to spread to the liver or lungs. It\'s rarer for it to move to other organs, such as the brain.' +
+    'It\'s still prostate cancer, even when it spreads. For example, metastatic prostate cancer in a bone in your hip is not bone cancer. ' +
+       'It has the same prostate cancer cells the original tumor had. Metastatic prostate cancer is an advanced form of cancer. There\'s no cure, ' +
+       'but you can treat it and control it. Most men with advanced prostate cancer live a normal life for many years.' +
+                'The scheme in the right show us the cancer prostate location and where the prostate cancer can be spread',
+    style={'fontSize': 14, 'margin': 10, 'width': '50%', 'display': 'inline-block', 'margin-right': 110}),
+        html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'with': 40})
+    ]),
     html.Div(children='This graph represents the overall survival since initial diagnosis of patients.', style={
         'textAlign': 'center',
         'color': colors['text'],
