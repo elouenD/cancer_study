@@ -22,10 +22,10 @@ def readCancerFile(path):
     file.pop(0)
     return file
 
-patients = readCancerFile("dataSet/Overall_Survival_(Months).txt")
-ar = readCancerFile("dataSet/AR_Cleaned.txt")
-foxA1 = readCancerFile("dataSet/FOXA1_Cleaned.txt")
-tp53 = readCancerFile("dataSet/TP53_Cleaned.txt")
+OverallFurvivalFile = readCancerFile("dataSet/Overall_Survival_(Months).txt")
+arGeneFile = readCancerFile("dataSet/AR_Cleaned.txt")
+foxA1GeneFile = readCancerFile("dataSet/FOXA1_Cleaned.txt")
+tp53GeneFile = readCancerFile("dataSet/TP53_Cleaned.txt")
 
 def stringToFloat(tab):
     for i in range(len(tab)):
@@ -92,6 +92,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'textAlign': 'center',
         'color': colors['text']
     }),
+
     html.Div([
         html.Div('    If your prostate cancer spreads to other parts of your body, your doctor may tell you that it\'s "metastatic" or' +
                  'that your cancer has "metastasized." Most often, prostate cancer spreads to the bones or lymph nodes. It\'s also common ' +
@@ -102,14 +103,21 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
                 'The scheme in the right show us the cancer prostate location and where the prostate cancer can be spread',
     style={'fontSize': 14, 'margin': 10, 'width': '50%', 'display': 'inline-block', 'margin-right': 110}),
         html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'with': 40})
-    ]),
+    ], style={'marginBottom': 50, 'marginTop': 25, 'display': 'inline-block'}),
+
+    html.H4(children='First study: SU2C/PCF Dream Team, PNAS 2019', style={
+        'textAlign': 'center',
+        'color': colors['text']
+    }),
+
     html.Div(children='This graph represents the overall survival since initial diagnosis of patients.', style={
         'textAlign': 'center',
         'color': colors['text'],
         'font-weight' : 'bold',
     }),
+
     dcc.Graph(
-        id='example-graph-3',
+        id='overall for all genes',
         figure={
             'data': [
                 {'x': patientsValues[0], 'y': patientsValues[1], 'type': 'bar', 'name': 'overall for all genes'},
@@ -174,9 +182,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     }),
     dcc.Graph(
         figure=fig
-    )     
+    )
 ])
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
