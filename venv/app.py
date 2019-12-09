@@ -138,19 +138,14 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     }),
     html.Div(children='It is important to remind the data used in this study is incomplete. Most of the patients (70%) didn\'t have information regarding their survival therefore the sample isn\'t representative.', style={
         'textAlign': 'center',
-        'color': colors['text']
-    }),
-    html.Div(children='This graph represents the overall survival since initial diagnosis of patients grouped by mutated genes.', style={
-        'textAlign': 'center',
         'color': colors['text'],
-        'font-weight' : 'bold',
-        'margin-top' : '3%',
+        'margin-bottom' : '3%'
     }),
-    dcc.Tabs(id="tabs-example", value='tab-1-example', children=[
-        dcc.Tab(label='Tab One', value='tab-1-example'),
-        dcc.Tab(label='Tab Two', value='tab-2-example'),
+    dcc.Tabs(id="tabs-Overall-by-genes", value='tab-Overall-by-genes-Diagram', children=[
+        dcc.Tab(label='Diagram', value='tab-Overall-by-genes-Diagram'),
+        dcc.Tab(label='Linechart', value='tab-Overall-by-genes-Linechart'),
     ]),
-    html.Div(id='tabs-content-example'),
+    html.Div(id='tabs-content-Overall-by-genes'),
     html.Div(children=[
         html.Div(children='This study compares the survival rate of the 3 most mutated genes in our samples : ', style={
             'textAlign': 'center',
@@ -172,13 +167,19 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     ], style={'margin-bottom' : '5%'})
 ])
 
-@app.callback(Output('tabs-content-example', 'children'),
-              [Input('tabs-example', 'value')])
+@app.callback(Output('tabs-content-Overall-by-genes', 'children'),
+              [Input('tabs-Overall-by-genes', 'value')])
 def render_content(tab):
-    if tab == 'tab-1-example':
+    if tab == 'tab-Overall-by-genes-Diagram':
         return html.Div([
+                html.Div(children='This graph represents the overall survival since initial diagnosis of patients grouped by mutated genes.', style={
+                    'textAlign': 'center',
+                    'color': colors['text'],
+                    'font-weight' : 'bold',
+                    'margin-top' : '3%',
+                }),
                     dcc.Graph(
-                        id='example-graph-1',
+                        id='tab-Overall-by-genes-Diagram',
                         figure={
                             'data': [
                                 {'x': tp53Values[0], 'y': tp53Values[1], 'type': 'bar', 'name': 'TP53'},
@@ -196,8 +197,14 @@ def render_content(tab):
                         }
                     )
             ])
-    elif tab == 'tab-2-example':
+    elif tab == 'tab-Overall-by-genes-Linechart':
         return html.Div([
+                html.Div(children='This graph represents the overall survival since initial diagnosis of patients grouped by mutated genes.', style={
+                'textAlign': 'center',
+                'color': colors['text'],
+                'font-weight' : 'bold',
+                'margin-top' : '3%',
+            }),
                     dcc.Graph(
                 figure=fig
             )])
