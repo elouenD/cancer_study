@@ -27,6 +27,7 @@ patients = readCancerFile("dataSet/Overall_Survival_(Months).txt")
 ar = readCancerFile("dataSet/AR_Cleaned.txt")
 foxA1 = readCancerFile("dataSet/FOXA1_Cleaned.txt")
 tp53 = readCancerFile("dataSet/TP53_Cleaned.txt")
+diagnosisAgeFile2015 = readCancerFile("dataSet/Diagnosis_Age.txt")
 
 def stringToFloat(tab):
     for i in range(len(tab)):
@@ -55,10 +56,13 @@ def getValues(data):
 
 image_filename = './images/metastatic-cancer.jpg' # replace with your own image
 encoded_image = base64.b64encode(open(image_filename, 'rb').read())
+
 patientsValues = getValues(patients)
 tp53Values = getValues(tp53)
 arValues = getValues(ar)
-foxA1Values = getValues(foxA1)    
+foxA1Values = getValues(foxA1)
+diagnosisAgeFile2015Values = getValues(diagnosisAgeFile2015)
+print(diagnosisAgeFile2015Values)
     
 fig = go.Figure()
 
@@ -132,10 +136,12 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             }
         }
     ),
+
     html.Div(children='We can see that the survival rate decrease drasticaly after the 20th month. And only 32% survive after the 30th month.', style={
         'textAlign': 'center',
         'color': colors['text']
     }),
+
     html.Div(children='It is important to remind the data used in this study is incomplete. Most of the patients (70%) didn\'t have information regarding their survival therefore the sample isn\'t representative.', style={
         'textAlign': 'center',
         'color': colors['text'],
@@ -164,7 +170,25 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             'color': colors['text'],
             'margin-left' : '25%',
         })
-    ], style={'margin-bottom' : '5%'})
+    ], style={'margin-bottom' : '5%'}),
+
+    # chart for diagnosis age
+    dcc.Graph(
+        id='diagnosisAge',
+        figure={
+            'data': [
+                {'x': diagnosisAgeFile2015Values[0], 'y': diagnosisAgeFile2015Values[1], 'type': 'bar', 'name': 'overall for all genes'},
+            ],
+            'layout': {
+                'plot_bgcolor': colors['background'],
+                'paper_bgcolor': colors['background'],
+                'font': {
+                    'color': colors['text']
+                }
+            }
+        }
+    ),
+
 ])
 
 @app.callback(Output('tabs-content-Overall-by-genes', 'children'),
@@ -185,7 +209,7 @@ def render_content(tab):
                                 {'x': tp53Values[0], 'y': tp53Values[1], 'type': 'bar', 'name': 'TP53'},
                                 {'x': arValues[0], 'y': arValues[1], 'type': 'bar', 'name': 'AR'},
                                 {'x': foxA1Values[0], 'y': foxA1Values[1], 'type': 'bar', 'name': 'FOXA1'},
-                
+
                             ],
                             'layout': {
                                 'plot_bgcolor': colors['background'],
@@ -208,7 +232,7 @@ def render_content(tab):
                     dcc.Graph(
                 figure=fig
             )])
-    
-    
+
+
 if __name__ == '__main__':
     app.run_server(debug=True)
