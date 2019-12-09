@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import dash
+from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
@@ -145,28 +146,62 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'font-weight' : 'bold',
         'margin-top' : '3%',
     }),
-    dcc.Graph(
-        id='example-graph-1',
-        figure={
-            'data': [
-                {'x': tp53Values[0], 'y': tp53Values[1], 'type': 'bar', 'name': 'TP53'},
-                {'x': arValues[0], 'y': arValues[1], 'type': 'bar', 'name': 'AR'},
-                {'x': foxA1Values[0], 'y': foxA1Values[1], 'type': 'bar', 'name': 'FOXA1'},
-
-            ],
-            'layout': {
-                'plot_bgcolor': colors['background'],
-                'paper_bgcolor': colors['background'],
-                'font': {
-                    'color': colors['text']
-                }
-            }
-        }
-    ),
-    dcc.Graph(
-        figure=fig
-    )
+    dcc.Tabs(id="tabs-example", value='tab-1-example', children=[
+        dcc.Tab(label='Tab One', value='tab-1-example'),
+        dcc.Tab(label='Tab Two', value='tab-2-example'),
+    ]),
+    html.Div(id='tabs-content-example'),
+    html.Div(children=[
+        html.Div(children='This study compares the survival rate of the 3 most mutated genes in our samples : ', style={
+            'textAlign': 'center',
+            'color': colors['text']
+        }),
+        html.Div(children='\t TP53 (Gene mutated in 40% of patients) : Missense mostly and nonsense mutation and some in frame deletion mutation', style={
+            'textAlign': 'left',
+            'color': colors['text'],
+            'margin-left' : '25%',
+        }),html.Div(children='\t AR (Gene mutated in 14% of patients) : Almost exclusively amplifications', style={
+            'textAlign': 'left',
+            'color': colors['text'],
+            'margin-left' : '25%',
+        }),html.Div(children='\t FOXA1 (Gene mutated in 9% of patients) : Mostly amplification', style={
+            'textAlign': 'left',
+            'color': colors['text'],
+            'margin-left' : '25%',
+        })
+    ], style={'margin-bottom' : '5%'})
 ])
 
+@app.callback(Output('tabs-content-example', 'children'),
+              [Input('tabs-example', 'value')])
+def render_content(tab):
+    if tab == 'tab-1-example':
+        return html.Div([
+                    dcc.Graph(
+                        id='example-graph-1',
+                        figure={
+                            'data': [
+                                {'x': tp53Values[0], 'y': tp53Values[1], 'type': 'bar', 'name': 'TP53'},
+                                {'x': arValues[0], 'y': arValues[1], 'type': 'bar', 'name': 'AR'},
+                                {'x': foxA1Values[0], 'y': foxA1Values[1], 'type': 'bar', 'name': 'FOXA1'},
+                
+                            ],
+                            'layout': {
+                                'plot_bgcolor': colors['background'],
+                                'paper_bgcolor': colors['background'],
+                                'font': {
+                                    'color': colors['text']
+                                }
+                            }
+                        }
+                    )
+            ])
+    elif tab == 'tab-2-example':
+        return html.Div([
+                    dcc.Graph(
+                figure=fig
+            )])
+    
+    
 if __name__ == '__main__':
     app.run_server(debug=True)
