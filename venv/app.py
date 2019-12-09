@@ -113,7 +113,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'with': 40})
     ], style={'marginBottom': 50, 'marginTop': 25, 'display': 'inline-block'}),
 
-    html.H4(children='First study: SU2C/PCF Dream Team, PNAS 2019', style={
+    html.H3(children='First study: SU2C/PCF Dream Team, PNAS 2019', style={
         'textAlign': 'center',
         'color': colors['text']
     }),
@@ -175,7 +175,18 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         })
     ], style={'margin-bottom' : '5%'}),
 
+    html.H3(children='Second study: SU2C/PCF Dream Team, Cell 2015', style={
+        'textAlign': 'center',
+        'color': colors['text']
+    }),
+
     # chart for diagnosis age
+    html.Div(children='This graph represents the diagnosis age for the metastatic prostate cancer.', style={
+        'textAlign': 'center',
+        'color': colors['text'],
+        'font-weight' : 'bold',
+        'margin-top' : '3%',
+    }),
     dcc.Graph(
         id='diagnosisAge',
         figure={
@@ -191,6 +202,12 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             }
         }
     ),
+    html.Div(children='We can see the diagnosis age average is high, beetwen 65-70 age. The first diagnosis in this study is at 40years.'
+                      '', style={
+        'textAlign': 'center',
+        'color': colors['text']
+    }),
+
 
     dcc.Graph(
         id='tumoreLess64Age',
