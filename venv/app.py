@@ -64,18 +64,18 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(
     x=tp53Values[0],
     y= tp53Values[1],
-    name = '<b>No</b> Gaps', # Style name/legend entry with html tags
+    name = 'TP53', # Style name/legend entry with html tags
     connectgaps=True # override default to connect the gaps
 ))
 fig.add_trace(go.Scatter(
     x=arValues[0],
     y=arValues[1],
-    name='Gaps',
+    name='AR',
 ))
 fig.add_trace(go.Scatter(
     x=foxA1Values[0],
     y=foxA1Values[1],
-    name='Gaps',
+    name='FOXA1',
 ))
 
 
@@ -131,49 +131,9 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         }
     ),
     dcc.Graph(
-    figure=dict(
-        data=[
-            dict(
-                x=tp53Values[0],
-                y=tp53Values[1],
-                name='TP53',
-                marker=dict(
-                    color='rgb(55, 83, 109)'
-                )
-            ),
-            dict(
-                x=arValues[0],
-                y=arValues[1],
-                name='AR',
-                marker=dict(
-                    color='rgb(26, 118, 255)'
-                )
-            ),
-            dict(
-                x=foxA1Values[0],
-                y=foxA1Values[1],
-                name='FOXA1',
-                marker=dict(
-                    color='rgb(26, 118, 255)'
-                )
-            )
-        ],
-        layout=dict(
-            title='US Export of Plastic Scrap',
-            showlegend=True,
-            legend=dict(
-                x=0,
-                y=1.0
-            ),
-            margin=dict(l=40, r=0, t=40, b=30)
-        )
-    ),
-    style={'height': 300},
-    id='my-graph'
+        figure=fig
     )
 ])
-    
-fig.show()
 
 if __name__ == '__main__':
     app.run_server(debug=True)
