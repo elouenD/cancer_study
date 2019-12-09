@@ -28,6 +28,8 @@ ar = readCancerFile("dataSet/AR_Cleaned.txt")
 foxA1 = readCancerFile("dataSet/FOXA1_Cleaned.txt")
 tp53 = readCancerFile("dataSet/TP53_Cleaned.txt")
 diagnosisAgeFile2015 = readCancerFile("dataSet/Diagnosis_Age.txt")
+tumorFile64Less = readCancerFile("dataSet/tumor_content64Less.txt")
+tumorFile64More = readCancerFile("dataSet/tumor_content64More.txt")
 
 def stringToFloat(tab):
     for i in range(len(tab)):
@@ -62,8 +64,9 @@ tp53Values = getValues(tp53)
 arValues = getValues(ar)
 foxA1Values = getValues(foxA1)
 diagnosisAgeFile2015Values = getValues(diagnosisAgeFile2015)
-print(diagnosisAgeFile2015Values)
-    
+tumorFile64LessValues = getValues(tumorFile64Less)
+tumorFile64MoreValues = getValues(tumorFile64More)
+
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(
@@ -189,6 +192,38 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         }
     ),
 
+    dcc.Graph(
+        id='tumoreLess64Age',
+        figure={
+            'data': [
+                {'x': tumorFile64LessValues[0], 'y': tumorFile64LessValues[1], 'type': 'bar', 'name': 'overall for all genes'},
+            ],
+            'layout': {
+                'plot_bgcolor': colors['background'],
+                'paper_bgcolor': colors['background'],
+                'font': {
+                    'color': colors['text']
+                }
+            }
+        }
+    ),
+
+    dcc.Graph(
+        id='tumoreMore64Age',
+        figure={
+            'data': [
+                {'x': tumorFile64MoreValues[0], 'y': tumorFile64MoreValues[1], 'type': 'bar', 'name': 'overall for all genes'},
+            ],
+            'layout': {
+                'plot_bgcolor': colors['background'],
+                'paper_bgcolor': colors['background'],
+                'font': {
+                    'color': colors['text']
+                }
+            }
+        }
+    ),
+
 ])
 
 @app.callback(Output('tabs-content-Overall-by-genes', 'children'),
@@ -236,3 +271,5 @@ def render_content(tab):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
