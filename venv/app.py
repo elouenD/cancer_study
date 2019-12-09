@@ -96,11 +96,6 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         }
     ),
 
-    html.Div(children='Dash: A web application framework for Python.', style={
-        'textAlign': 'center',
-        'color': colors['text']
-    }),
-
     html.Div([
         html.Div('    If your prostate cancer spreads to other parts of your body, your doctor may tell you that it\'s "metastatic" or' +
                  'that your cancer has "metastasized." Most often, prostate cancer spreads to the bones or lymph nodes. It\'s also common ' +
@@ -207,45 +202,17 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'textAlign': 'center',
         'color': colors['text']
     }),
-
-
-    dcc.Graph(
-        id='tumoreLess64Age',
-        figure={
-            'data': [
-                {'x': tumorFile64LessValues[0], 'y': tumorFile64LessValues[1], 'type': 'bar', 'name': 'overall for all genes'},
-            ],
-            'layout': {
-                'plot_bgcolor': colors['background'],
-                'paper_bgcolor': colors['background'],
-                'font': {
-                    'color': colors['text']
-                }
-            }
-        }
-    ),
-
-    dcc.Graph(
-        id='tumoreMore64Age',
-        figure={
-            'data': [
-                {'x': tumorFile64MoreValues[0], 'y': tumorFile64MoreValues[1], 'type': 'bar', 'name': 'overall for all genes'},
-            ],
-            'layout': {
-                'plot_bgcolor': colors['background'],
-                'paper_bgcolor': colors['background'],
-                'font': {
-                    'color': colors['text']
-                }
-            }
-        }
-    ),
+    dcc.Tabs(id="tabs-tumor", value='tabs-tumor-plus-64', children=[
+        dcc.Tab(label='64 <=', value='tabs-tumor-plus-64'),
+        dcc.Tab(label='64 >', value='tabs-tumor-less-64'),
+    ]),
+    html.Div(id='tabs-content-tumor'),
 
 ])
 
 @app.callback(Output('tabs-content-Overall-by-genes', 'children'),
               [Input('tabs-Overall-by-genes', 'value')])
-def render_content(tab):
+def render_overall_by_genes(tab):
     if tab == 'tab-Overall-by-genes-Diagram':
         return html.Div([
                 html.Div(children='This graph represents the overall survival since initial diagnosis of patients grouped by mutated genes.', style={
@@ -254,24 +221,24 @@ def render_content(tab):
                     'font-weight' : 'bold',
                     'margin-top' : '3%',
                 }),
-                    dcc.Graph(
-                        id='tab-Overall-by-genes-Diagram',
-                        figure={
-                            'data': [
-                                {'x': tp53Values[0], 'y': tp53Values[1], 'type': 'bar', 'name': 'TP53'},
-                                {'x': arValues[0], 'y': arValues[1], 'type': 'bar', 'name': 'AR'},
-                                {'x': foxA1Values[0], 'y': foxA1Values[1], 'type': 'bar', 'name': 'FOXA1'},
-
-                            ],
-                            'layout': {
-                                'plot_bgcolor': colors['background'],
-                                'paper_bgcolor': colors['background'],
-                                'font': {
-                                    'color': colors['text']
-                                }
+                dcc.Graph(
+                    id='tab-Overall-by-genes-Diagram',
+                    figure={
+                        'data': [
+                            {'x': tp53Values[0], 'y': tp53Values[1], 'type': 'bar', 'name': 'TP53'},
+                            {'x': arValues[0], 'y': arValues[1], 'type': 'bar', 'name': 'AR'},
+                            {'x': foxA1Values[0], 'y': foxA1Values[1], 'type': 'bar', 'name': 'FOXA1'},
+            
+                        ],
+                        'layout': {
+                            'plot_bgcolor': colors['background'],
+                            'paper_bgcolor': colors['background'],
+                            'font': {
+                                'color': colors['text']
                             }
                         }
-                    )
+                    }
+                )
             ])
     elif tab == 'tab-Overall-by-genes-Linechart':
         return html.Div([
@@ -281,11 +248,62 @@ def render_content(tab):
                 'font-weight' : 'bold',
                 'margin-top' : '3%',
             }),
-                    dcc.Graph(
+                dcc.Graph(
                 figure=fig
             )])
-
-
+    
+@app.callback(Output('tabs-content-tumor', 'children'),
+              [Input('tabs-tumor', 'value')])
+def render_tumor(tab):
+    if tab == 'tabs-tumor-plus-64':
+        return html.Div([
+                html.Div(children='Percentage of tumor content for patients diagnosed at 64 years old and older.', style={
+                    'textAlign': 'center',
+                    'color': colors['text'],
+                    'font-weight' : 'bold',
+                    'margin-top' : '3%',
+                }),
+                dcc.Graph(
+                    id='tumoreMore64Age',
+                    figure={
+                        'data': [
+                            {'x': tumorFile64MoreValues[0], 'y': tumorFile64MoreValues[1], 'type': 'bar', 'name': 'tumor content'},
+                        ],
+                        'layout': {
+                            'plot_bgcolor': colors['background'],
+                            'paper_bgcolor': colors['background'],
+                            'font': {
+                                'color': colors['text']
+                            }
+                        }
+                    }
+                )
+            ])
+    elif tab == 'tabs-tumor-less-64':
+        return html.Div([
+                html.Div(children='Percentage of tumor content for patients diagnosed at 63 years old and younger.', style={
+                    'textAlign': 'center',
+                    'color': colors['text'],
+                    'font-weight' : 'bold',
+                    'margin-top' : '3%',
+                }),
+                dcc.Graph(
+                    id='tumoreLess64Age',
+                    figure={
+                        'data': [
+                            {'x': tumorFile64LessValues[0], 'y': tumorFile64LessValues[1], 'type': 'bar', 'name': 'tumor content'},
+                        ],
+                        'layout': {
+                            'plot_bgcolor': colors['background'],
+                            'paper_bgcolor': colors['background'],
+                            'font': {
+                                'color': colors['text']
+                            }
+                        }
+                    }
+                )
+            ])
+    
 if __name__ == '__main__':
     app.run_server(debug=True)
 
