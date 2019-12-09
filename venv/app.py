@@ -104,7 +104,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
        'It has the same prostate cancer cells the original tumor had. Metastatic prostate cancer is an advanced form of cancer. There\'s no cure, ' +
        'but you can treat it and control it. Most men with advanced prostate cancer live a normal life for many years.' +
                 'The scheme in the right show us the cancer prostate location and where the prostate cancer can be spread',
-    style={'fontSize': 14, 'margin': 10, 'width': '50%', 'display': 'inline-block', 'margin-right': 110}),
+    style={'fontSize': 14, 'margin': 30, 'width': '50%', 'display': 'inline-block', 'margin-right': 110}),
         html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'with': 40})
     ], style={'marginBottom': 50, 'marginTop': 25, 'display': 'inline-block'}),
 
@@ -197,7 +197,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             }
         }
     ),
-    html.Div(children='We can see the diagnosis age average is high, beetwen 65-70 age. The first diagnosis in this study is at 40years.'
+    html.Div(children='We can see the diagnosis age average is high, beetwen 65-70 age. The first diagnosis in this study is at 40years. '
                       '', style={
         'textAlign': 'center',
         'color': colors['text']
