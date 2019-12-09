@@ -2,6 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import base64
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -18,7 +19,6 @@ with open("dataSet/Overall_Survival_(Months).txt") as f:
         patients.append(line.replace('\n', ''))
 
 patients.pop(0)
-print(patients)
 
 def stringToFloat(tab):
     for i in range(len(patients)):
@@ -45,6 +45,8 @@ monthCount = countSurvivalOneList(patients)
 nbByMonth = list(monthCount.keys())
 nbAlive = list(monthCount.values())
 
+image_filename = './images/metastatic-cancer.jpg' # replace with your own image
+encoded_image = base64.b64encode(open(image_filename, 'rb').read())
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
@@ -60,22 +62,10 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'color': colors['text']
     }),
 
-    dcc.Graph(
-        id='example-graph-2',
-        figure={
-            'data': [
-                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'},
-                {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': u'Montréal'},
-            ],
-            'layout': {
-                'plot_bgcolor': colors['background'],
-                'paper_bgcolor': colors['background'],
-                'font': {
-                    'color': colors['text']
-                }
-            }
-        }
-    ),
+    html.Div([
+        html.Div('Example Div', style={'color': 'blue', 'fontSize': 14}),
+        html.Img(src='data:image/png;base64,{}'.format(encoded_image))
+    ], style={'marginBottom': 50, 'marginTop': 25}),
 
     dcc.Graph(
             id='example-graph-3',
@@ -93,8 +83,6 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
                 }
             }
     )
-
-
 ])
 
 if __name__ == '__main__':
