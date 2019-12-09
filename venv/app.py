@@ -95,8 +95,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
     html.Div([
         html.Div('Example Div', style={'color': 'blue', 'fontSize': 14}),
-        html.Img(src='data:image/png;base64,{}'.format(encoded_image))
-    ], style={'marginBottom': 50, 'marginTop': 25}),
+        html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'with': 40})
+    ], style={'marginBottom': 50, 'marginTop': 25, 'width': 50}),
     dcc.Graph(
         id='example-graph-3',
         figure={
