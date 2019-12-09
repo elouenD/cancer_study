@@ -99,8 +99,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
                  'for it to spread to the liver or lungs. It\'s rarer for it to move to other organs, such as the brain.' +
     'It\'s still prostate cancer, even when it spreads. For example, metastatic prostate cancer in a bone in your hip is not bone cancer. ' +
        'It has the same prostate cancer cells the original tumor had. Metastatic prostate cancer is an advanced form of cancer. There\'s no cure, ' +
-       'but you can treat it and control it. Most men with advanced prostate cancer live a normal life for many years.',
-                'The scheme in the right show us the cancer prostate location and where the prostate cancer can be spread'
+       'but you can treat it and control it. Most men with advanced prostate cancer live a normal life for many years.' +
+                'The scheme in the right show us the cancer prostate location and where the prostate cancer can be spread',
     style={'fontSize': 14, 'margin': 10, 'width': '50%', 'display': 'inline-block', 'margin-right': 110}),
         html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'with': 40})
     ], style={'marginBottom': 50, 'marginTop': 25, 'display': 'inline-block'}),
