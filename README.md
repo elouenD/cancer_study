@@ -1,5 +1,6 @@
 # cancer_study
 
+project by Elouen Dumas-Pilhou and Julien Bedjai
 
 To run the project use 
 ```

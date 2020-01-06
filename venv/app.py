@@ -97,7 +97,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     ),
 
     html.Div([
-        html.Div('    If your prostate cancer spreads to other parts of your body, your doctor may tell you that it\'s "metastatic" or' +
+        html.Div('    If your prostate cancer spreads to other parts of your body, your doctor may tell you that it\'s "metastatic" or ' +
                  'that your cancer has "metastasized." Most often, prostate cancer spreads to the bones or lymph nodes. It\'s also common ' +
                  'for it to spread to the liver or lungs. It\'s rarer for it to move to other organs, such as the brain.' +
     'It\'s still prostate cancer, even when it spreads. For example, metastatic prostate cancer in a bone in your hip is not bone cancer. ' +
